@@ -82,6 +82,17 @@ jobs:
       - name: Apply compatibility fixes from private source
         run: python3 private-source/ci/apply_build_fixes.py
 
+      - name: Set up Python for private branding assets
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install font and image build tools
+        run: python -m pip install --disable-pip-version-check pillow 'fonttools[woff]'
+
+      - name: Apply branded icon, splash and YekanBakh fonts
+        run: python private-source/ci/apply_branding_072.py
+
       - name: Allow HTTPS connectivity
         working-directory: app
         run: |
@@ -111,12 +122,18 @@ jobs:
         working-directory: app
         run: flutter build apk --debug
 
+      - name: Build optimized ARM64 release-mode APK (testing)
+        working-directory: app
+        run: flutter build apk --release --split-per-abi
+
       - name: Verify APK and SHA-256
         working-directory: app
         run: |
           test -s build/app/outputs/flutter-apk/app-debug.apk
           cd build/app/outputs/flutter-apk
           sha256sum app-debug.apk > app-debug.apk.sha256
+          test -s app-arm64-v8a-release.apk
+          sha256sum app-arm64-v8a-release.apk > app-arm64-v8a-release.apk.sha256
 
       - name: Publish APK artifact only (no source)
         uses: actions/upload-artifact@v4
@@ -125,5 +142,15 @@ jobs:
           path: |
             app/build/app/outputs/flutter-apk/app-debug.apk
             app/build/app/outputs/flutter-apk/app-debug.apk.sha256
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Publish smaller ARM64 test APK (debug signing; not production)
+        uses: actions/upload-artifact@v4
+        with:
+          name: WooSuite-Manager-v0.7.2-ARM64-Test
+          path: |
+            app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+            app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk.sha256
           if-no-files-found: error
           retention-days: 7
