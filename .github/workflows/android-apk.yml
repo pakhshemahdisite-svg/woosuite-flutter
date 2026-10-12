@@ -1,0 +1,81 @@
+name: WooSuite Flutter Android APK
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'source.zip'
+      - 'pubspec.yaml'
+      - 'lib/**'
+      - 'test/**'
+      - '.github/workflows/android-apk.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: woosuite-android-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - name: Restore Flutter sources
+        shell: bash
+        run: |
+          if [ ! -f pubspec.yaml ]; then
+            test -f source.zip || { echo "::error::Upload source.zip to the repository root"; exit 1; }
+            python3 - <<'PY'
+          from zipfile import ZipFile
+          from pathlib import Path
+          with ZipFile('source.zip') as z:
+              files = [n for n in z.namelist() if not n.endswith('/')]
+              roots = {n.split('/')[0] for n in files}
+              prefix = roots.pop() + '/' if len(roots) == 1 and all('/' in n for n in files) else ''
+              for n in files:
+                  rel = n[len(prefix):]
+                  p = Path(rel)
+                  if not rel or p.is_absolute() or '..' in p.parts:
+                      raise SystemExit(f"Unsafe path: {n}")
+                  p.parent.mkdir(parents=True, exist_ok=True)
+                  p.write_bytes(z.read(n))
+          PY
+          fi
+          test -f pubspec.yaml
+      - name: Generate Android host
+        run: flutter create --platforms=android --project-name=ab_woosuite_manager --org=com.amirbakhshi .
+      - name: Enable internet permission
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('android/app/src/main/AndroidManifest.xml')
+          s=p.read_text()
+          perm='<uses-permission android:name="android.permission.INTERNET" />'
+          if perm not in s:
+              s=s.replace('<manifest xmlns:android="http://schemas.android.com/apk/res/android">', '<manifest xmlns:android="http://schemas.android.com/apk/res/android">\n    '+perm)
+              p.write_text(s)
+          PY
+      - run: flutter pub get
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+      - name: Test
+        run: flutter test
+      - name: Build APK
+        run: flutter build apk --debug
+      - name: Validate output and checksum
+        run: |
+          test -s build/app/outputs/flutter-apk/app-debug.apk
+          cd build/app/outputs/flutter-apk
+          sha256sum app-debug.apk > app-debug.apk.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: WooSuite-Manager-Debug-APK
+          path: |
+            build/app/outputs/flutter-apk/app-debug.apk
+            build/app/outputs/flutter-apk/app-debug.apk.sha256
+          retention-days: 14
+          if-no-files-found: error
