@@ -1,3 +1,4 @@
-WooSuite Manager Flutter v0.7.1+8
+WooSuite Manager Flutter v0.7.2+9
 Private source: pakhshemahdisite-svg/woosuite-flutter-source@main
-Build request: fix post-login HomeShell Future-returning setState red screen; add widget regression test.
+Features: AB metallic logo launcher icon, adaptive icon, Android 12 splash, YekanBakh 4 weights
+Build: debug APK plus compact ARM64 release-mode test APK
