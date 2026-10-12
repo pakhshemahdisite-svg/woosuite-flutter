@@ -1,81 +1,122 @@
-name: WooSuite Flutter Android APK
+name: WooSuite Flutter APK (private source)
+run-name: "WooSuite Android build • ${{ github.run_number }}"
+
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'source.zip'
-      - 'pubspec.yaml'
-      - 'lib/**'
-      - 'test/**'
-      - '.github/workflows/android-apk.yml'
   workflow_dispatch:
+
 permissions:
   contents: read
+
 concurrency:
-  group: woosuite-android-${{ github.ref }}
+  group: woosuite-flutter-private-source
   cancel-in-progress: true
+
 jobs:
   android:
+    name: Build Android APK from private repository
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v4
+      - name: Check private checkout credential
+        env:
+          SOURCE_TOKEN: ${{ secrets.WOOSUITE_SOURCE_READ_TOKEN }}
+        shell: bash
+        run: |
+          if [ -z "$SOURCE_TOKEN" ]; then
+            echo "::error::Configure Actions secret WOOSUITE_SOURCE_READ_TOKEN (fine-grained PAT, read-only contents of woosuite-flutter-source)."
+            exit 1
+          fi
+
+      - name: Fetch private WooSuite source
+        uses: actions/checkout@v4
+        with:
+          repository: pakhshemahdisite-svg/woosuite-flutter-source
+          ref: main
+          token: ${{ secrets.WOOSUITE_SOURCE_READ_TOKEN }}
+          path: private-source
+          persist-credentials: false
+
+      - name: Restore Flutter project without publishing source
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          src = Path("private-source/source.zip")
+          if not src.is_file():
+              raise SystemExit("Private repository must contain source.zip at root")
+          root = Path("app").resolve()
+          root.mkdir(parents=True, exist_ok=True)
+          with ZipFile(src) as z:
+              names = [m.filename for m in z.infolist() if not m.is_dir()]
+              if not names:
+                  raise SystemExit("Source archive is empty")
+              prefix = "ab-woosuite-manager-flutter/" if all(n.startswith("ab-woosuite-manager-flutter/") for n in names) else ""
+              for entry in z.infolist():
+                  if entry.is_dir():
+                      continue
+                  rel = entry.filename[len(prefix):]
+                  dest = (root / rel).resolve()
+                  if not rel or not dest.is_relative_to(root) or (entry.external_attr >> 16) & 0o170000 == 0o120000:
+                      raise SystemExit("Unsafe ZIP path or symlink detected")
+                  dest.parent.mkdir(parents=True, exist_ok=True)
+                  dest.write_bytes(z.read(entry))
+          if not (root / "pubspec.yaml").is_file():
+              raise SystemExit("Missing pubspec.yaml in private Flutter source")
+          print("Private source imported into temporary runner workspace")
+          PY
+
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
           cache: true
-      - name: Restore Flutter sources
-        shell: bash
-        run: |
-          if [ ! -f pubspec.yaml ]; then
-            test -f source.zip || { echo "::error::Upload source.zip to the repository root"; exit 1; }
-            python3 - <<'PY'
-          from zipfile import ZipFile
-          from pathlib import Path
-          with ZipFile('source.zip') as z:
-              files = [n for n in z.namelist() if not n.endswith('/')]
-              roots = {n.split('/')[0] for n in files}
-              prefix = roots.pop() + '/' if len(roots) == 1 and all('/' in n for n in files) else ''
-              for n in files:
-                  rel = n[len(prefix):]
-                  p = Path(rel)
-                  if not rel or p.is_absolute() or '..' in p.parts:
-                      raise SystemExit(f"Unsafe path: {n}")
-                  p.parent.mkdir(parents=True, exist_ok=True)
-                  p.write_bytes(z.read(n))
-          PY
-          fi
-          test -f pubspec.yaml
+
       - name: Generate Android host
+        working-directory: app
         run: flutter create --platforms=android --project-name=ab_woosuite_manager --org=com.amirbakhshi .
-      - name: Enable internet permission
+
+      - name: Allow HTTPS connectivity
+        working-directory: app
         run: |
           python3 - <<'PY'
           from pathlib import Path
-          p=Path('android/app/src/main/AndroidManifest.xml')
+          p=Path("android/app/src/main/AndroidManifest.xml")
           s=p.read_text()
           perm='<uses-permission android:name="android.permission.INTERNET" />'
           if perm not in s:
               s=s.replace('<manifest xmlns:android="http://schemas.android.com/apk/res/android">', '<manifest xmlns:android="http://schemas.android.com/apk/res/android">\n    '+perm)
               p.write_text(s)
           PY
-      - run: flutter pub get
-      - name: Analyze
+
+      - name: Install Flutter packages
+        working-directory: app
+        run: flutter pub get
+
+      - name: Analyze code
+        working-directory: app
         run: flutter analyze --no-fatal-infos --no-fatal-warnings
-      - name: Test
+
+      - name: Execute tests
+        working-directory: app
         run: flutter test
-      - name: Build APK
+
+      - name: Build signed debug APK (testing only)
+        working-directory: app
         run: flutter build apk --debug
-      - name: Validate output and checksum
+
+      - name: Verify APK and SHA-256
+        working-directory: app
         run: |
           test -s build/app/outputs/flutter-apk/app-debug.apk
           cd build/app/outputs/flutter-apk
           sha256sum app-debug.apk > app-debug.apk.sha256
-      - uses: actions/upload-artifact@v4
+
+      - name: Publish APK artifact only (no source)
+        uses: actions/upload-artifact@v4
         with:
-          name: WooSuite-Manager-Debug-APK
+          name: WooSuite-Manager-Android-Debug
           path: |
-            build/app/outputs/flutter-apk/app-debug.apk
-            build/app/outputs/flutter-apk/app-debug.apk.sha256
-          retention-days: 14
+            app/build/app/outputs/flutter-apk/app-debug.apk
+            app/build/app/outputs/flutter-apk/app-debug.apk.sha256
           if-no-files-found: error
+          retention-days: 7
