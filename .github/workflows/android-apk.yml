@@ -79,6 +79,9 @@ jobs:
         working-directory: app
         run: flutter create --platforms=android --project-name=ab_woosuite_manager --org=com.amirbakhshi .
 
+      - name: Apply compatibility fixes from private source
+        run: python3 private-source/ci/apply_build_fixes.py
+
       - name: Allow HTTPS connectivity
         working-directory: app
         run: |
