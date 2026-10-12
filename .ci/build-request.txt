@@ -1,2 +1,2 @@
-WooSuite Flutter v0.7.3+10 — UTF8 mock header correction
-Build request: 0.7.3 verified candidate
+WooSuite Flutter v0.7.3+10
+Build request: stable order-detail and module refresh setState fixes + tests
