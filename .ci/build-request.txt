@@ -1,3 +1,3 @@
-WooSuite Manager Flutter v0.7.0
-Build source: pakhshemahdisite-svg/woosuite-flutter-source@main
-Build request: 3 — verification after GitHub PAT access update
+WooSuite Manager Flutter v0.7.0 (compile fix 1)
+Private source: pakhshemahdisite-svg/woosuite-flutter-source@main
+Build request: analyzer regression repair
