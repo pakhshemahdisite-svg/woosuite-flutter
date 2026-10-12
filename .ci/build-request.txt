@@ -1,3 +1,2 @@
-WooSuite Manager Flutter v0.7.3+10
-Private source: woosuite-flutter-source@main
-Build request: 0.7.3 third candidate - scroll to status button in virtual list
+WooSuite Flutter v0.7.3+10 — diagnostic build for order detail widget test, private source main
+Build request: 0.7.3 fourth candidate
