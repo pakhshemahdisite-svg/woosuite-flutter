@@ -1,4 +1,4 @@
-WooSuite Manager Flutter v0.7.2+9
-Build request #2: private fonts bundled, no external downloads
-Private source: pakhshemahdisite-svg/woosuite-flutter-source@main
-Features: AB native launcher / splash, four-weight YekanBakh, compact ARM64 APK
+WooSuite Manager Flutter v0.7.3+10
+Private repo: woosuite-flutter-source@main
+Feature: bounded order details; status confirmation; 404 fallback; regression tests.
+Build request: 0.7.3 first candidate
