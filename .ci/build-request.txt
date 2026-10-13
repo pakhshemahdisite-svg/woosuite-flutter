@@ -1,4 +1,4 @@
-WooSuite Manager Flutter v0.7.6+13
+WooSuite Manager Flutter v0.7.7+14
 Private source: pakhshemahdisite-svg/woosuite-flutter-source@main
-Release goal: read-only version and endpoint compatibility diagnostics, no writes to store
-Build request: 0.7.6 first candidate
+Milestone: independent sales reports UI, bounded paid-order figures, no Hub upgrade required
+Build request: v0.7.7 candidate 1
