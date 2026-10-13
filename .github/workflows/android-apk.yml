@@ -47,6 +47,13 @@ jobs:
           php -l private-source/modules/ab-woosuite-sales-reports/tests/smoke.php
           php private-source/modules/ab-woosuite-sales-reports/tests/smoke.php
 
+      - name: Test private WooSuite Audit PHP module
+        shell: bash
+        run: |
+          php -l private-source/modules/ab-woosuite-audit/ab-woosuite-audit/ab-woosuite-audit.php
+          php -l private-source/modules/ab-woosuite-audit/ab-woosuite-audit/includes/class-abws-audit.php
+          php private-source/modules/ab-woosuite-audit/tests/audit.php
+
       - name: Restore Flutter project without publishing source
         shell: bash
         run: |
