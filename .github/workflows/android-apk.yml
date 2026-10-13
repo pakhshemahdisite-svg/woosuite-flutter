@@ -115,6 +115,9 @@ jobs:
       - name: Apply WooSuite 0.7.7 sales reports UI and tests
         run: python3 private-source/ci/apply_features_077.py
 
+      - name: Apply WooSuite v0.7.8 read-only activity timeline
+        run: python3 private-source/ci/apply_features_078.py
+
       - name: Allow HTTPS connectivity
         working-directory: app
         run: |
@@ -170,7 +173,7 @@ jobs:
       - name: Publish smaller ARM64 test APK (debug signing; not production)
         uses: actions/upload-artifact@v4
         with:
-          name: WooSuite-Manager-v0.7.7-ARM64-Test
+          name: WooSuite-Manager-v0.7.8-ARM64-Test
           path: |
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk.sha256
