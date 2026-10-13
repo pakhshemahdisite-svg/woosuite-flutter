@@ -1,4 +1,3 @@
-AB WooSuite Manager Flutter v0.8.0+17
-Audit Log WordPress plugin v1.1.0
-Private source: pakhshemahdisite-svg/woosuite-flutter-source@main
-Build request: v0.8.0 candidate 1
+AB WooSuite Flutter v0.8.0+17 / Audit Log v1.1.0
+Private source main; candidate 2
+Fix: reject unknown REST query keys in audited filtered history
