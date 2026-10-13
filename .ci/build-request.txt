@@ -1,4 +1,4 @@
-WooSuite Manager Flutter v0.7.8+15
+WooSuite Manager Flutter v0.7.9+16
 Private source: pakhshemahdisite-svg/woosuite-flutter-source@main
-Feature: bounded read-only activity timeline; pagination, 403/404 handling and metadata privacy tests
-Build request: 0.7.8 candidate 1
+Capability: independent Audit Log 1.0.0, WooSuite Hub read-only fallback, privacy and auth tests
+Build request: v0.7.9 candidate 1
