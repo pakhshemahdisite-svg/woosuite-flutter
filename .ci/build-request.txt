@@ -1,3 +1,4 @@
-WooSuite Manager Flutter v0.7.5+12
+WooSuite Manager Flutter v0.7.6+13
 Private source: pakhshemahdisite-svg/woosuite-flutter-source@main
-Build request: v0.7.5 candidate 2 - inventory widget list scroll regression
+Release goal: read-only version and endpoint compatibility diagnostics, no writes to store
+Build request: 0.7.6 first candidate
