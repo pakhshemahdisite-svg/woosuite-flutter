@@ -54,6 +54,32 @@ jobs:
           php -l private-source/modules/ab-woosuite-audit/ab-woosuite-audit/includes/class-abws-audit.php
           php private-source/modules/ab-woosuite-audit/tests/audit.php
 
+      - name: Package independent WooSuite Audit Log 1.1.0
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile, ZIP_DEFLATED
+          root = Path('private-source/modules/ab-woosuite-audit/ab-woosuite-audit')
+          main = root / 'ab-woosuite-audit.php'
+          if not main.is_file() or 'Version: 1.1.0' not in main.read_text():
+              raise SystemExit('Audit plugin version mismatch')
+          out = Path('dist/AB-WooSuite-Audit-Log-v1.1.0.zip')
+          out.parent.mkdir(exist_ok=True)
+          with ZipFile(out, 'w', ZIP_DEFLATED) as z:
+              for p in sorted(root.rglob('*')):
+                  if p.is_file():
+                      z.write(p, str(Path('ab-woosuite-audit') / p.relative_to(root)))
+          print('Audit module installer:', out, out.stat().st_size, 'bytes')
+          PY
+
+      - name: Upload installable Audit Log plugin artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: WooSuite-Audit-Log-v1.1.0
+          path: dist/AB-WooSuite-Audit-Log-v1.1.0.zip
+          if-no-files-found: error
+          retention-days: 14
+
       - name: Restore Flutter project without publishing source
         shell: bash
         run: |
@@ -128,6 +154,9 @@ jobs:
       - name: Apply WooSuite v0.7.9 independent audit API integration
         run: python3 private-source/ci/apply_features_079.py
 
+      - name: Apply WooSuite v0.8.0 audit filter and timeline UI
+        run: python3 private-source/ci/apply_features_080.py
+
       - name: Allow HTTPS connectivity
         working-directory: app
         run: |
@@ -183,7 +212,7 @@ jobs:
       - name: Publish smaller ARM64 test APK (debug signing; not production)
         uses: actions/upload-artifact@v4
         with:
-          name: WooSuite-Manager-v0.7.9-ARM64-Test
+          name: WooSuite-Manager-v0.8.0-ARM64-Test
           path: |
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk.sha256
