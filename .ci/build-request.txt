@@ -1,3 +1,2 @@
-AB WooSuite Flutter v0.8.0+17 / Audit Log v1.1.0
-Private source main; candidate 2
-Fix: reject unknown REST query keys in audited filtered history
+WooSuite Manager Flutter v0.8.0+17 and Audit Log v1.1.0
+CI candidate 3: audit screen regex replacement corrected
