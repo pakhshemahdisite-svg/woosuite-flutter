@@ -40,6 +40,13 @@ jobs:
           path: private-source
           persist-credentials: false
 
+      - name: Validate private WooSuite Sales Reports PHP module
+        run: |
+          php -l private-source/modules/ab-woosuite-sales-reports/ab-woosuite-sales-reports.php
+          php -l private-source/modules/ab-woosuite-sales-reports/includes/class-abwsr-sales-report.php
+          php -l private-source/modules/ab-woosuite-sales-reports/tests/smoke.php
+          php private-source/modules/ab-woosuite-sales-reports/tests/smoke.php
+
       - name: Restore Flutter project without publishing source
         shell: bash
         run: |
