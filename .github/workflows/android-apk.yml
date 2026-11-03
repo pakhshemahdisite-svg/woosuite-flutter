@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: pakhshemahdisite-svg/woosuite-flutter-source
-          ref: main
+          ref: feature/woosuite-pro-mobile-unification
           token: ${{ secrets.WOOSUITE_SOURCE_READ_TOKEN }}
           path: private-source
           persist-credentials: false
@@ -53,6 +53,11 @@ jobs:
           php -l private-source/modules/ab-woosuite-audit/ab-woosuite-audit/ab-woosuite-audit.php
           php -l private-source/modules/ab-woosuite-audit/ab-woosuite-audit/includes/class-abws-audit.php
           php private-source/modules/ab-woosuite-audit/tests/audit.php
+
+      - name: Validate WooSuite Mobile Integrations REST contract
+        run: |
+          php -l private-source/modules/ab-woosuite-mobile-integrations/ab-woosuite-mobile-integrations.php
+          php private-source/modules/ab-woosuite-mobile-integrations/tests/contracts.php
 
       - name: Package independent WooSuite Audit Log 1.1.0
         run: |
@@ -157,6 +162,16 @@ jobs:
       - name: Apply WooSuite v0.8.0 audit filter and timeline UI
         run: python3 private-source/ci/apply_features_080.py
 
+      - name: Apply WooSuite v0.8.1 Smart Hub integration
+        run: python3 private-source/ci/apply_features_081.py
+
+      - name: Apply WooSuite v0.8.2 consented AI conversation
+        run: python3 private-source/ci/apply_features_082.py
+
+      - name: Verify expected Flutter app version
+        run: |
+          grep -Fxq 'version: 0.8.2+19' app/pubspec.yaml
+
       - name: Allow HTTPS connectivity
         working-directory: app
         run: |
@@ -212,7 +227,7 @@ jobs:
       - name: Publish smaller ARM64 test APK (debug signing; not production)
         uses: actions/upload-artifact@v4
         with:
-          name: WooSuite-Manager-v0.8.0-ARM64-Test
+          name: WooSuite-Manager-v0.8.2-ARM64-Test
           path: |
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk.sha256
