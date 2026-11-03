@@ -3,3 +3,4 @@ Private source branch: feature/woosuite-pro-mobile-unification
 AB Smart Suite /ab-smart/v1 API + Persian speech-to-text/TTS + safe actions
 Request date: 2026-11-03
 Retry 2: corrected v0.8.3 pubspec dependencies anchor.
+Retry 3: merge speech/TTS service queries with Flutter AndroidManifest.
