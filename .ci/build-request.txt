@@ -2,3 +2,4 @@ WooSuite Manager Flutter v0.8.2+19 — Android APK build
 Private source: feature/woosuite-pro-mobile-unification
 Includes Smart Hub v0.8.1 and consented AI conversation v0.8.2
 Build requested: 2026-11-03
+CI run 2: removed obsolete Audit packaging gate; build APK only.
