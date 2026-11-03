@@ -4,3 +4,4 @@ AB Smart Suite /ab-smart/v1 API + Persian speech-to-text/TTS + safe actions
 Request date: 2026-11-03
 Retry 2: corrected v0.8.3 pubspec dependencies anchor.
 Retry 3: merge speech/TTS service queries with Flutter AndroidManifest.
+Retry 4: Flutter test scroll/keyboard focus fix for explicit action confirmation.
