@@ -5,3 +5,5 @@ Changes: preflight runtime microphone permission, add WebRTC-required AndroidMan
 Tests: Flutter widget tests of denied/permanently denied microphone and interrupted call stage; verify manifest, Flutter analyze and ARM64 APK.
 Production OpenAI key stays exclusively on WordPress server; no WooCommerce write operations.
 Signing: do NOT mislabel CI debug-signed ARM64 APK as an in-place update.
+
+Retry v0.8.9: make crash diagnostics non-blocking for 0.8.8 tests; add deterministic native preference mocks. 2026-11-05.
