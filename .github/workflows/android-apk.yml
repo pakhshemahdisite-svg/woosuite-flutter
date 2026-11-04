@@ -186,12 +186,15 @@ jobs:
       - name: Apply v0.8.8 OpenAI real-time voice and developer contact corrections
         run: python3 private-source/ci/apply_features_088.py
 
+      - name: Apply v0.8.9 stable Android microphone and WebRTC crash guards
+        run: python3 private-source/ci/apply_features_089.py
+
       - name: Configure microphone and voice service permissions
         run: python3 private-source/scripts/configure_voice_platforms.py app
 
       - name: Verify expected Flutter app version
         run: |
-          grep -Fxq 'version: 0.8.8+25' app/pubspec.yaml
+          grep -Fxq 'version: 0.8.9+26' app/pubspec.yaml
 
       - name: Allow HTTPS connectivity
         working-directory: app
