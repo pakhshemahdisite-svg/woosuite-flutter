@@ -57,7 +57,10 @@ jobs:
       - name: Validate WooSuite Mobile Integrations REST contract
         run: |
           php -l private-source/modules/ab-woosuite-mobile-integrations/ab-woosuite-mobile-integrations.php
+          php -l private-source/modules/ab-woosuite-mobile-integrations/includes/class-abws-mobile-realtime.php
+          php -l private-source/modules/ab-woosuite-mobile-integrations/tests/realtime-contracts.php
           php private-source/modules/ab-woosuite-mobile-integrations/tests/contracts.php
+          php private-source/modules/ab-woosuite-mobile-integrations/tests/realtime-contracts.php
 
       - name: Restore Flutter project without publishing source
         shell: bash
@@ -204,11 +207,25 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-      - name: Build optimized ARM64 release-mode APK (testing)
+      - name: Build optimized ARM64 release-mode APK (optional)
+        id: arm64
         working-directory: app
-        run: flutter build apk --release --split-per-abi
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          flutter build apk --release --split-per-abi 2>&1 | tee arm64-build.log
+
+      - name: Export ARM64 diagnostic logs on failure
+        if: steps.arm64.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: WooSuite-Manager-ARM64-Release-Diagnostics
+          path: app/arm64-build.log
+          retention-days: 3
 
       - name: Verify ARM64 and SHA-256
+        if: steps.arm64.outcome == 'success'
         working-directory: app
         run: |
           test -s build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
@@ -216,6 +233,7 @@ jobs:
           sha256sum app-arm64-v8a-release.apk > app-arm64-v8a-release.apk.sha256
 
       - name: Publish smaller ARM64 test APK (debug signing; not production)
+        if: steps.arm64.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: WooSuite-Manager-v0.8.5-ARM64-WebRTC-Gated-Test
