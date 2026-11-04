@@ -154,12 +154,15 @@ jobs:
       - name: Apply v0.8.5 guarded mobile WebRTC audio client
         run: python3 private-source/ci/apply_features_085.py
 
+      - name: Apply v0.8.6 Persian conversational voice assistant
+        run: python3 private-source/ci/apply_features_086.py
+
       - name: Configure microphone and voice service permissions
         run: python3 private-source/scripts/configure_voice_platforms.py app
 
       - name: Verify expected Flutter app version
         run: |
-          grep -Fxq 'version: 0.8.5+22' app/pubspec.yaml
+          grep -Fxq 'version: 0.8.6+23' app/pubspec.yaml
 
       - name: Allow HTTPS connectivity
         working-directory: app
@@ -236,7 +239,7 @@ jobs:
         if: steps.arm64.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
-          name: WooSuite-Manager-v0.8.5-ARM64-WebRTC-Gated-Test
+          name: WooSuite-Manager-v0.8.6-ARM64-Persian-Talk-Test
           path: |
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk.sha256
