@@ -192,9 +192,14 @@ jobs:
       - name: Configure microphone and voice service permissions
         run: python3 private-source/scripts/configure_voice_platforms.py app
 
-      - name: Verify expected Flutter app version
+      - name: Verify expected Flutter app version and native microphone setup
         run: |
           grep -Fxq 'version: 0.8.9+26' app/pubspec.yaml
+          grep -Fq 'android.permission.RECORD_AUDIO' app/android/app/src/main/AndroidManifest.xml
+          grep -Fq 'android.permission.MODIFY_AUDIO_SETTINGS' app/android/app/src/main/AndroidManifest.xml
+          grep -Fq 'android.permission.ACCESS_NETWORK_STATE' app/android/app/src/main/AndroidManifest.xml
+          grep -Fq 'android.permission.CHANGE_NETWORK_STATE' app/android/app/src/main/AndroidManifest.xml
+          grep -Fq 'permission_handler: 12.0.3' app/pubspec.yaml
 
       - name: Allow HTTPS connectivity
         working-directory: app
