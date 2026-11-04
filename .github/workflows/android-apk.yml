@@ -78,6 +78,9 @@ jobs:
           php private-source/modules/ab-woosuite-mobile-integrations/tests/contracts.php
           php private-source/modules/ab-woosuite-mobile-integrations/tests/realtime-contracts.php
 
+      - name: Test permanent Android signing logic without any real keys
+        run: python3 private-source/ci/test_release_signing.py
+
       - name: Restore Flutter project without publishing source
         shell: bash
         run: |
@@ -261,9 +264,6 @@ jobs:
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk.sha256
           if-no-files-found: error
           retention-days: 7
-
-      - name: Test permanent Android signing logic without any real keys
-        run: python3 private-source/ci/test_release_signing.py
 
       # This stage NEVER runs on pushes, only on explicit manual approvals.
       # GitHub encrypted secrets are required; a missing/wrong cert is fatal.
