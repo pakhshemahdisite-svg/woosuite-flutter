@@ -1,11 +1,1 @@
-Build request: WooSuite Pro 0.8.7+24
-Reason: assistant portal voice routing, Material 3 UI, iOS-ready widget layers
-Source branch: feature/woosuite-pro-mobile-unification
-Date: 2026-11-04
-Android test build; stable signing only with manual workflow and original secrets.
-
-Retry 1: fixed assistant_portal.dart closing brace; keep stable signing manual.
-
-Retry v0.8.7 UI: preserve sales-assistant label and preload integration diagnostics in long content, 2026-11-04.
-
-Retry 2 2026-11-04: keep AssistantPortal source patch, restore full server-backed status, update SmartHub widget tests, include v0.8.7 in shared iOS preparation.
+Build WooSuite Pro v0.8.8+25 — Native OpenAI Realtime as primary voice under Assistant, no required Persian Android TTS; developer phone 09359492927; seven service diagnostics with authenticated Render monitor (server deployment separate). Run Flutter tests, PHP offline contracts and Android APK CI. 2026-11-04.
