@@ -1,7 +1,4 @@
-WooSuite Manager Flutter v0.8.3+20 — Android ARM64 voice test APK
-Private source branch: feature/woosuite-pro-mobile-unification
-AB Smart Suite /ab-smart/v1 API + Persian speech-to-text/TTS + safe actions
-Request date: 2026-11-03
-Retry 2: corrected v0.8.3 pubspec dependencies anchor.
-Retry 3: merge speech/TTS service queries with Flutter AndroidManifest.
-Retry 4: Flutter test scroll/keyboard focus fix for explicit action confirmation.
+WooSuite Manager Flutter v0.8.4+21 Android appearance and assistant build
+Private source: feature/woosuite-pro-mobile-unification
+Persisted light/dark/system, AB Amir Bakhshi developer section, auto TTS, Smart Suite voice
+Build request: 2026-11-04
