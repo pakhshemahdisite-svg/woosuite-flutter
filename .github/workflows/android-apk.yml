@@ -176,12 +176,15 @@ jobs:
       - name: Apply v0.8.6 Persian conversational voice assistant
         run: python3 private-source/ci/apply_features_086.py
 
+      - name: Apply v0.8.7 polished UI and Assistant voice navigation
+        run: python3 private-source/ci/apply_features_087.py
+
       - name: Configure microphone and voice service permissions
         run: python3 private-source/scripts/configure_voice_platforms.py app
 
       - name: Verify expected Flutter app version
         run: |
-          grep -Fxq 'version: 0.8.6+23' app/pubspec.yaml
+          grep -Fxq 'version: 0.8.7+24' app/pubspec.yaml
 
       - name: Allow HTTPS connectivity
         working-directory: app
