@@ -219,10 +219,10 @@ jobs:
           cd build/app/outputs/flutter-apk
           sha256sum app-debug.apk > app-debug.apk.sha256
 
-      - name: Publish APK artifact only (no source)
+      - name: Publish DEBUG-signed test APK (NOT updateable)
         uses: actions/upload-artifact@v4
         with:
-          name: WooSuite-Manager-Android-Debug
+          name: WooSuite-Pro-DEBUG-Signed-Test-Not-Updateable
           path: |
             app/build/app/outputs/flutter-apk/app-debug.apk
             app/build/app/outputs/flutter-apk/app-debug.apk.sha256
@@ -254,11 +254,11 @@ jobs:
           cd build/app/outputs/flutter-apk
           sha256sum app-arm64-v8a-release.apk > app-arm64-v8a-release.apk.sha256
 
-      - name: Publish smaller ARM64 test APK (debug signing; not production)
+      - name: Publish ARM64 DEBUG-signed test APK (NOT updateable)
         if: steps.arm64.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
-          name: WooSuite-Manager-v0.8.6-ARM64-Persian-Talk-Test
+          name: WooSuite-Pro-ARM64-DEBUG-Signed-Not-Updateable
           path: |
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk.sha256
