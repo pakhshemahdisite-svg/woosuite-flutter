@@ -7,3 +7,5 @@ Production OpenAI key stays exclusively on WordPress server; no WooCommerce writ
 Signing: do NOT mislabel CI debug-signed ARM64 APK as an in-place update.
 
 Retry v0.8.9: make crash diagnostics non-blocking for 0.8.8 tests; add deterministic native preference mocks. 2026-11-05.
+
+Retry v0.8.9 build: fix literal newline in patched test setup. Also test Preview package suffix and side-by-side ARM64 install. 2026-11-05.
