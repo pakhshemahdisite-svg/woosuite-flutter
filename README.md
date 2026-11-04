@@ -1,3 +1,10 @@
+<!-- AB-WORKSPACE-NAV:START -->
+> **راهنمای مخزن — MANAGER-CI — ابزار عمومی ساخت WooSuite**  
+> به‌روزرسانی: ۲۰۲۶-۱۱-۰۵. [فهرست مرکزی پروژه‌ها](https://github.com/AB-Softwares/ab-core/blob/main/docs/workspace/README.md) · [وضعیت و شاخهٔ فعال](https://github.com/AB-Softwares/ab-core/blob/main/docs/workspace/STATUS.md)  
+> این مخزن سورس اصلی نیست. وابستگی checkout به woosuite-flutter-source تا پذیرش جایگزین ساخت خصوصی حفظ شود. نسخهٔ imported پایین مربوط به baseline است؛ نسخهٔ خروجی را از ref سورس و manifest APK همان run بخوانید. سورس خصوصی یا secrets به این مخزن اضافه نشود.
+
+<!-- AB-WORKSPACE-NAV:END -->
+
 # AB WooSuite Flutter — public CI only
 
 This is the **public build repository**, not the Flutter source repository.
