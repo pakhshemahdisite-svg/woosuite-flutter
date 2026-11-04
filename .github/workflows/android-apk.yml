@@ -74,6 +74,7 @@ jobs:
         run: |
           php -l private-source/modules/ab-woosuite-mobile-integrations/ab-woosuite-mobile-integrations.php
           php -l private-source/modules/ab-woosuite-mobile-integrations/includes/class-abws-mobile-realtime.php
+          php -l private-source/modules/ab-woosuite-mobile-integrations/includes/class-abws-mobile-monitor.php
           php -l private-source/modules/ab-woosuite-mobile-integrations/tests/realtime-contracts.php
           php private-source/modules/ab-woosuite-mobile-integrations/tests/contracts.php
           php private-source/modules/ab-woosuite-mobile-integrations/tests/realtime-contracts.php
@@ -179,12 +180,15 @@ jobs:
       - name: Apply v0.8.7 polished UI and Assistant voice navigation
         run: python3 private-source/ci/apply_features_087.py
 
+      - name: Apply v0.8.8 OpenAI real-time voice and developer contact corrections
+        run: python3 private-source/ci/apply_features_088.py
+
       - name: Configure microphone and voice service permissions
         run: python3 private-source/scripts/configure_voice_platforms.py app
 
       - name: Verify expected Flutter app version
         run: |
-          grep -Fxq 'version: 0.8.7+24' app/pubspec.yaml
+          grep -Fxq 'version: 0.8.8+25' app/pubspec.yaml
 
       - name: Allow HTTPS connectivity
         working-directory: app
