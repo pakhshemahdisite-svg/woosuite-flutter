@@ -276,6 +276,17 @@ jobs:
           cd build/app/outputs/flutter-apk
           sha256sum app-arm64-v8a-release.apk > app-arm64-v8a-release.apk.sha256
 
+      - name: Verify preview Android package identity before publication
+        if: ${{ steps.arm64.outcome == 'success' && (github.event_name != 'workflow_dispatch' || inputs.signed_release != true) }}
+        working-directory: app
+        shell: bash
+        run: |
+          set -euo pipefail
+          apk=build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+          aapt_path="$(find "$ANDROID_HOME/build-tools" -type f -name aapt | sort -V | tail -1)"
+          test -x "$aapt_path"
+          "$aapt_path" dump badging "$apk" | grep -Fq "package: name='com.amirbakhshi.ab_woosuite_manager.preview'"
+
       - name: Publish isolated ARM64 Preview test APK (install beside current app)
         if: steps.arm64.outcome == 'success'
         uses: actions/upload-artifact@v4
