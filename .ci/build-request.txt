@@ -2,3 +2,4 @@ WooSuite Manager Flutter v0.8.4+21 Android appearance and assistant build
 Private source: feature/woosuite-pro-mobile-unification
 Persisted light/dark/system, AB Amir Bakhshi developer section, auto TTS, Smart Suite voice
 Build request: 2026-11-04
+Retry 2 — corrected Python regex for Flutter app root and theme detection.
