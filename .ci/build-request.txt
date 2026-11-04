@@ -1,4 +1,7 @@
-Build WooSuite Pro v0.8.8+25 — Native OpenAI Realtime as primary voice under Assistant, no required Persian Android TTS; developer phone 09359492927; seven service diagnostics with authenticated Render monitor (server deployment separate). Run Flutter tests, PHP offline contracts and Android APK CI. 2026-11-04.
-Retry v0.8.8: fix phone SelectableText duplication in Flutter overlay (2026-11-04).
-
-Final QA v0.8.8: align missing WebRTC bridge test with newly explicit OpenAI server setup warning; 57 tests previously passed.
+WooSuite Pro v0.8.9+26 — Android native WebRTC crash fix
+2026-11-05
+Reason: app closes when OpenAI realtime voice button pressed on Android.
+Changes: preflight runtime microphone permission, add WebRTC-required AndroidManifest permissions, remove native speaker routing during getUserMedia, guard lifecycle/cancellation, persist only a non-sensitive call-stage diagnostic.
+Tests: Flutter widget tests of denied/permanently denied microphone and interrupted call stage; verify manifest, Flutter analyze and ARM64 APK.
+Production OpenAI key stays exclusively on WordPress server; no WooCommerce write operations.
+Signing: do NOT mislabel CI debug-signed ARM64 APK as an in-place update.
