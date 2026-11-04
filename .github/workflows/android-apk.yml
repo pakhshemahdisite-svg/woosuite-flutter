@@ -247,6 +247,10 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+      - name: Isolate preview APK from the installed WooSuite production package
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.signed_release != true }}
+        run: python3 private-source/scripts/configure_android_preview.py app
+
       - name: Build optimized ARM64 release-mode APK (optional)
         id: arm64
         working-directory: app
@@ -272,11 +276,11 @@ jobs:
           cd build/app/outputs/flutter-apk
           sha256sum app-arm64-v8a-release.apk > app-arm64-v8a-release.apk.sha256
 
-      - name: Publish ARM64 DEBUG-signed test APK (NOT updateable)
+      - name: Publish isolated ARM64 Preview test APK (install beside current app)
         if: steps.arm64.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
-          name: WooSuite-Pro-ARM64-DEBUG-Signed-Not-Updateable
+          name: WooSuite-Pro-ARM64-Preview-SideBySide-Test
           path: |
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk.sha256
