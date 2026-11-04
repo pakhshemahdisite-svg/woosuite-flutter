@@ -1,1 +1,2 @@
 Build WooSuite Pro v0.8.8+25 — Native OpenAI Realtime as primary voice under Assistant, no required Persian Android TTS; developer phone 09359492927; seven service diagnostics with authenticated Render monitor (server deployment separate). Run Flutter tests, PHP offline contracts and Android APK CI. 2026-11-04.
+Retry v0.8.8: fix phone SelectableText duplication in Flutter overlay (2026-11-04).
