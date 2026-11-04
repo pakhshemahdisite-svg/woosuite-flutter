@@ -187,18 +187,12 @@ jobs:
         working-directory: app
         run: flutter build apk --debug
 
-      - name: Build optimized ARM64 release-mode APK (testing)
-        working-directory: app
-        run: flutter build apk --release --split-per-abi
-
-      - name: Verify APK and SHA-256
+      - name: Verify and package debug APK first
         working-directory: app
         run: |
           test -s build/app/outputs/flutter-apk/app-debug.apk
           cd build/app/outputs/flutter-apk
           sha256sum app-debug.apk > app-debug.apk.sha256
-          test -s app-arm64-v8a-release.apk
-          sha256sum app-arm64-v8a-release.apk > app-arm64-v8a-release.apk.sha256
 
       - name: Publish APK artifact only (no source)
         uses: actions/upload-artifact@v4
@@ -209,6 +203,17 @@ jobs:
             app/build/app/outputs/flutter-apk/app-debug.apk.sha256
           if-no-files-found: error
           retention-days: 7
+
+      - name: Build optimized ARM64 release-mode APK (testing)
+        working-directory: app
+        run: flutter build apk --release --split-per-abi
+
+      - name: Verify ARM64 and SHA-256
+        working-directory: app
+        run: |
+          test -s build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+          cd build/app/outputs/flutter-apk
+          sha256sum app-arm64-v8a-release.apk > app-arm64-v8a-release.apk.sha256
 
       - name: Publish smaller ARM64 test APK (debug signing; not production)
         uses: actions/upload-artifact@v4
