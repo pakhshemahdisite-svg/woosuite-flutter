@@ -1,4 +1,1 @@
-WooSuite Pro v0.8.6+23 — Persian one-tap voice conversation test. Keep existing smart, stock, orders, and opt-in WebRTC. Validate speech-turn gate and consent. 2026-11-04.
-CI retry: fixed SDP fixture for WooSuite Mobile realtime PHP contract; build Flutter 0.8.6+23.
-
-Final v0.8.6+23 Android voice validation: microphone permission lifecycle, speaker route, language fallback, stale ASR events; build app artifacts.
+WooSuite Pro signing regression check — stable release key pinned in private branch, Android manifest id/version safeguards; no permanent key in repo. No signed release requested. 2026-11-04.
