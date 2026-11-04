@@ -15,9 +15,9 @@ on:
         default: '0.8.7'
         required: true
       release_code:
-        description: 'Higher Android versionCode (first permanent release: 24)'
+        description: 'Higher Android versionCode (first permanent release: 2024)'
         type: number
-        default: 24
+        default: 2024
         required: true
   push:
     branches: [main]
@@ -274,6 +274,8 @@ jobs:
           WOOSUITE_ANDROID_STORE_PASSWORD: ${{ secrets.WOOSUITE_ANDROID_STORE_PASSWORD }}
           WOOSUITE_ANDROID_KEY_ALIAS: ${{ secrets.WOOSUITE_ANDROID_KEY_ALIAS }}
           WOOSUITE_ANDROID_KEY_PASSWORD: ${{ secrets.WOOSUITE_ANDROID_KEY_PASSWORD }}
+          WOOSUITE_ANDROID_RELEASE_VERSION_CODE: ${{ inputs.release_code }}
+          WOOSUITE_ANDROID_RELEASE_VERSION_NAME: ${{ inputs.release_version }}
           RELEASE_NAME: ${{ inputs.release_version }}
           RELEASE_CODE: ${{ inputs.release_code }}
         shell: bash
@@ -281,7 +283,7 @@ jobs:
           set -euo pipefail
           [[ "$RELEASE_CODE" =~ ^[0-9]+$ ]] || { echo "::error::Invalid versionCode"; exit 1; }
           [[ "$RELEASE_NAME" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "::error::Invalid versionName"; exit 1; }
-          test "$RELEASE_CODE" -ge 24 || { echo "::error::Use a higher versionCode than v0.8.6+23"; exit 1; }
+          test "$RELEASE_CODE" -ge 2024 || { echo "::error::Use Android versionCode at least 2024; v0.8.6 uses manifest code 2023"; exit 1; }
           python3 private-source/scripts/configure_android_release_signing.py app
           cd app
           flutter clean
