@@ -2,3 +2,4 @@ WooSuite Pro v0.8.5+22 — native WebRTC mobile client (backend-disabled by defa
 Source: feature/woosuite-pro-mobile-unification
 Test: capability false / 404 fallback, explicit mic consent, same-origin SDP, forced cleanup
 Build request: 2026-11-04
+Second validation — fix settings developer credit test scrolling below new WebRTC card.
