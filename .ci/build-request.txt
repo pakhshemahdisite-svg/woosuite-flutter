@@ -1,6 +1,4 @@
-WooSuite Manager Flutter v0.8.4+21 Android appearance and assistant build
-Private source: feature/woosuite-pro-mobile-unification
-Persisted light/dark/system, AB Amir Bakhshi developer section, auto TTS, Smart Suite voice
+WooSuite Pro v0.8.5+22 — native WebRTC mobile client (backend-disabled by default)
+Source: feature/woosuite-pro-mobile-unification
+Test: capability false / 404 fallback, explicit mic consent, same-origin SDP, forced cleanup
 Build request: 2026-11-04
-Retry 2 — corrected Python regex for Flutter app root and theme detection.
-Retry 3 — settings cards use local transparent Material for ListTiles.
