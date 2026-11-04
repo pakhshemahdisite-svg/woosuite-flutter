@@ -1,7 +1,1 @@
-WooSuite Pro v0.8.5+22 — native WebRTC mobile client (backend-disabled by default)
-Source: feature/woosuite-pro-mobile-unification
-Test: capability false / 404 fallback, explicit mic consent, same-origin SDP, forced cleanup
-Build request: 2026-11-04
-Second validation — fix settings developer credit test scrolling below new WebRTC card.
-
-Build request: 2026-11-04. Preserve and upload debug APK before optional ARM64 attempt, troubleshoot release separately. Run v0.8.5+22.
+WooSuite Pro v0.8.6+23 — Persian one-tap voice conversation test. Keep existing smart, stock, orders, and opt-in WebRTC. Validate speech-turn gate and consent. 2026-11-04.
