@@ -76,8 +76,11 @@ jobs:
           php -l private-source/modules/ab-woosuite-mobile-integrations/includes/class-abws-mobile-realtime.php
           php -l private-source/modules/ab-woosuite-mobile-integrations/includes/class-abws-mobile-monitor.php
           php -l private-source/modules/ab-woosuite-mobile-integrations/tests/realtime-contracts.php
+          php -l private-source/modules/ab-woosuite-mobile-integrations/includes/class-abws-mobile-admin.php
+          php -l private-source/modules/ab-woosuite-mobile-integrations/tests/admin-voice-activation-contracts.php
           php private-source/modules/ab-woosuite-mobile-integrations/tests/contracts.php
           php private-source/modules/ab-woosuite-mobile-integrations/tests/realtime-contracts.php
+          php private-source/modules/ab-woosuite-mobile-integrations/tests/admin-voice-activation-contracts.php
 
       - name: Test permanent Android signing logic without any real keys
         run: python3 private-source/ci/test_release_signing.py
