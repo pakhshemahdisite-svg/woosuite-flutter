@@ -285,6 +285,8 @@ jobs:
           [[ "$RELEASE_NAME" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "::error::Invalid versionName"; exit 1; }
           test "$RELEASE_CODE" -ge 2024 || { echo "::error::Use Android versionCode at least 2024; v0.8.6 uses manifest code 2023"; exit 1; }
           python3 private-source/scripts/configure_android_release_signing.py app
+          # Force Gradle to pick up signing secrets that were absent in test builds.
+          (cd app/android && ./gradlew --stop >/dev/null)
           cd app
           flutter clean
           flutter pub get
