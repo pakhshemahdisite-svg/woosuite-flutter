@@ -3,3 +3,5 @@ Reason: assistant portal voice routing, Material 3 UI, iOS-ready widget layers
 Source branch: feature/woosuite-pro-mobile-unification
 Date: 2026-11-04
 Android test build; stable signing only with manual workflow and original secrets.
+
+Retry 1: fixed assistant_portal.dart closing brace; keep stable signing manual.
