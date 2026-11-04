@@ -7,3 +7,5 @@ Android test build; stable signing only with manual workflow and original secret
 Retry 1: fixed assistant_portal.dart closing brace; keep stable signing manual.
 
 Retry v0.8.7 UI: preserve sales-assistant label and preload integration diagnostics in long content, 2026-11-04.
+
+Retry 2 2026-11-04: keep AssistantPortal source patch, restore full server-backed status, update SmartHub widget tests, include v0.8.7 in shared iOS preparation.
