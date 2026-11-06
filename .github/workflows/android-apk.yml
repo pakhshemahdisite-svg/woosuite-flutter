@@ -10,19 +10,20 @@ on:
         default: false
         required: true
       release_version:
-        description: 'New version name (first permanent release: 0.8.7)'
+        description: 'New version name (production signing opt-in only)'
         type: string
-        default: '0.8.7'
+        default: '0.9.2'
         required: true
       release_code:
         description: 'Higher Android versionCode (first permanent release: 2024)'
         type: number
-        default: 2024
+        default: 2030
         required: true
   push:
-    branches: [main]
+    branches: [main, build/woosuite-w-launcher-icon-20261106]
     paths:
       - '.ci/build-request.txt'
+      - '.github/workflows/android-apk.yml'
 
 permissions:
   contents: read
@@ -51,7 +52,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: pakhshemahdisite-svg/woosuite-flutter-source
-          ref: feature/woosuite-pro-mobile-unification
+          ref: feature/woosuite-w-launcher-icon-20261106
           token: ${{ secrets.WOOSUITE_SOURCE_READ_TOKEN }}
           path: private-source
           persist-credentials: false
@@ -189,12 +190,21 @@ jobs:
       - name: Apply v0.8.9 stable Android microphone and WebRTC crash guards
         run: python3 private-source/ci/apply_features_089.py
 
+      - name: Apply WooSuite v0.9.1 lifecycle and RTL navigation overlay
+        run: python3 private-source/ci/apply_features_090.py
+
+      - name: Apply WooSuite v0.9.2 unified Smart Suite voice overlay
+        run: python3 private-source/ci/apply_features_092.py
+
+      - name: Replace ONLY the Android launcher with the uploaded gold/silver W
+        run: python3 private-source/ci/apply_launcher_w_icon.py
+
       - name: Configure microphone and voice service permissions
         run: python3 private-source/scripts/configure_voice_platforms.py app
 
       - name: Verify expected Flutter app version and native microphone setup
         run: |
-          grep -Fxq 'version: 0.8.9+26' app/pubspec.yaml
+          grep -Fxq 'version: 0.9.2+29' app/pubspec.yaml
           grep -Fq 'android.permission.RECORD_AUDIO' app/android/app/src/main/AndroidManifest.xml
           grep -Fq 'android.permission.MODIFY_AUDIO_SETTINGS' app/android/app/src/main/AndroidManifest.xml
           grep -Fq 'android.permission.ACCESS_NETWORK_STATE' app/android/app/src/main/AndroidManifest.xml
@@ -240,7 +250,7 @@ jobs:
       - name: Publish DEBUG-signed test APK (NOT updateable)
         uses: actions/upload-artifact@v4
         with:
-          name: WooSuite-Pro-DEBUG-Signed-Test-Not-Updateable
+          name: WooSuite-Pro-0.9.2-W-Launcher-DEBUG-Test
           path: |
             app/build/app/outputs/flutter-apk/app-debug.apk
             app/build/app/outputs/flutter-apk/app-debug.apk.sha256
@@ -291,7 +301,7 @@ jobs:
         if: steps.arm64.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
-          name: WooSuite-Pro-ARM64-Preview-SideBySide-Test
+          name: WooSuite-Pro-0.9.2-W-Launcher-ARM64-Preview
           path: |
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
             app/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk.sha256
@@ -316,7 +326,7 @@ jobs:
           set -euo pipefail
           [[ "$RELEASE_CODE" =~ ^[0-9]+$ ]] || { echo "::error::Invalid versionCode"; exit 1; }
           [[ "$RELEASE_NAME" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "::error::Invalid versionName"; exit 1; }
-          test "$RELEASE_CODE" -ge 2024 || { echo "::error::Use Android versionCode at least 2024; v0.8.6 uses manifest code 2023"; exit 1; }
+          test "$RELEASE_CODE" -ge 2030 || { echo "::error::Use Android versionCode at least 2024; v0.8.6 uses manifest code 2023"; exit 1; }
           python3 private-source/scripts/configure_android_release_signing.py app
           # Force Gradle to pick up signing secrets that were absent in test builds.
           (cd app/android && ./gradlew --stop >/dev/null)
