@@ -9,3 +9,5 @@ Signing: do NOT mislabel CI debug-signed ARM64 APK as an in-place update.
 Retry v0.8.9: make crash diagnostics non-blocking for 0.8.8 tests; add deterministic native preference mocks. 2026-11-05.
 
 Retry v0.8.9 build: fix literal newline in patched test setup. Also test Preview package suffix and side-by-side ARM64 install. 2026-11-05.
+
+WooSuite Manager 0.9.3+30 QA Preview — Holoo status/catalog, manager ticket replies, live WooCommerce reports, AB Smart voice, owner W icon and WooSuite splash. Source: pakhshemahdisite-svg/woosuite-flutter-source@qa/woosuite-manager-0.9.3-preview-20261111. QA-only .preview093; not a production update. 2026-11-11.
