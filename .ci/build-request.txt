@@ -12,3 +12,5 @@ Retry v0.8.9 build: fix literal newline in patched test setup. Also test Preview
 
 
 WooSuite Manager 0.9.3+30 QA Preview — Holoo status/catalog, manager ticket replies, WooCommerce reports/chart, AB Smart voice, owner W icon and WooSuite splash. Source: woosuite-flutter-source@qa/woosuite-manager-0.9.3-preview-20261111. QA-only package `.preview093`, side-by-side; not a production update. 2026-11-11.
+
+WooSuite Pro 0.9.3 QA rebuild 2026-11-11: independently render created/paid/unverified WooCommerce order series in Android, and correctly label the read-only store catalog. Source mirrors the canonical private ABS-Pakhshmahdi reviewed overlays; debug-signed preview only, never release in-place.
